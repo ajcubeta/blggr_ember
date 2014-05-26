@@ -1,0 +1,2 @@
+## Blggr using Ember JS
+http://emberjs.com/guides/
