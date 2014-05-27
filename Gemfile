@@ -27,6 +27,7 @@ group :development do
   gem 'puma'
   gem 'quiet_assets'
   gem 'awesome_print'
+  # gem 'spring'
 end
 
 group :development, :test do
