@@ -3,8 +3,8 @@
     <div class="navbar-inner">
       <a class="brand" href="#">Bloggr</a>
       <ul class="nav">
-        <li><a href="#">Posts</a></li>
-        <li><a>About</a></li>
+        <li>{{#link-to 'posts'}}Posts{{/link-to}}</li>
+        <li>{{#link-to 'about'}}About{{/link-to}}</li>
       </ul>
     </div>
   </div>
@@ -12,16 +12,65 @@
   {{outlet}}
 </script>
 
-<script type="text/x-handlebars" id='about'>
-  <div class='about'>
-    <p>
-      Lorem Ipsum is simply dummy text of the printing and typesetting industry. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-    </p>
-    <p>
-      Lorem Ipsum is simply dummy text of the printing and typesetting industry. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-    </p>
+<script type="text/x-handlebars" id="posts">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span3">
+        <table class='table'>
+          <thead>
+            <tr><th>Recent Posts</th></tr>
+          </thead>
+          {{#each}}
+          <tr>
+            <td>
+              {{#link-to 'post' this}}
+                {{title}} <small class='muted'> by {{author.name}}</small>
+              {{/link-to}}
+            </td>
+          </tr>
+          {{/each}}
+        </table>
+      </div>
+      <div class='span9'>
+        {{outlet}}
+      </div>
+    </div>
   </div>
+</script>
+
+<script type="text/x-handlebars" id="post">
+  {{#if isEditing}}
+    {{partial 'post/edit'}}
+    <button {{action 'doneEditing'}}>Done</button>
+  {{else}}
+    <button {{action 'edit'}}>Edit</button>
+  {{/if}}
+
+  <h1>{{title}}</h1>
+  <h2>by {{author.name}} <small class='muted'>{{{format-date date}}}</small></h2>
+
+  <hr>
+
+  <div class="intro">
+    {{{format-markdown excerpt}}}
+  </div>
+
+  <div class='below-the-fold'>
+    {{{format-markdown body}}}
+  </div>
+</script>
+
+<script type="text/x-handlebars" id="post/_edit">
+  <p>{{input type="text" value=title}}</p>
+  <p>{{input type="text" value=excerpt}}</p>
+  <p>{{textarea value=body}}</p>
+</script>
+
+<script type="text/x-handlebars" id="about">
   <div class='about'>
+    <p>
+      Lorem Ipsum is simply dummy text of the printing and typesetting industry. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+    </p>
     <p>
       Lorem Ipsum is simply dummy text of the printing and typesetting industry. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
     </p>
