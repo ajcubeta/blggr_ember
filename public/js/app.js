@@ -9,13 +9,23 @@ App.Router.map(function() {
 
 App.PostsRoute = Ember.Route.extend({
   model: function() {
-    return posts;
+    // return posts
+    return $.getJSON('http://tomdale.net/api/get_recent_posts/?callback=?').then(function(data) {
+      return data.posts.map(function(post) {
+        post.body = post.content;
+        return post;
+      });
+    });
   }
 });
 
 App.PostRoute = Ember.Route.extend({
   model: function(params) {
-    return posts.findBy('id', params.post_id);
+    // return posts.findBy('id', params.post_id);
+    return $.getJSON('http://tomdale.net/api/get_recent_posts/?id='+params.post_id+'&callback=?').then(function(data) {
+      data.post.body = data.post.content;
+      return data.post;
+    });
   }
 });
 
